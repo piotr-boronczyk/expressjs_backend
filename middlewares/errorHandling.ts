@@ -1,18 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { ApiError } from '../utils/ApiError'
+import { R, Status } from '../utils/response'
 
-export const errorHandler = (err: ApiError, _req: Request, res: Response) => {
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+export const errorHandler = (err: ApiError, req: Request, res: Response, next: NextFunction) => {
     const {message, statusCode} = err
-    res.status(statusCode).json({
-        success: false,
-        meta: {
-            code: statusCode,
-            errorText: httpStatus[statusCode],
-            message: message
-        },
-        data: {}
-    })
+    res.status(statusCode).json(new R({}).changeCode(statusCode).changeMessage(message).changeStatus(Status.ERROR))
 }
 
 export const errorConverter = (err: Error, _req: Request, _res: Response, next: NextFunction) => {
