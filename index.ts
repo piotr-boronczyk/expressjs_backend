@@ -10,7 +10,7 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/', routes)
+app.use('/post', routes)
 
 app.use(errorConverter)
 app.use(errorHandler)

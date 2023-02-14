@@ -12,10 +12,14 @@ export const getPost = async (postUUID: string) => {
     return resp
 }
 
+export const getLatestPosts = async (numberOfPosts: number) => {
+    return await db.selectFrom('post').selectAll().orderBy('post.created_dt', 'desc').limit(numberOfPosts).execute()
+}
+
 export const createPost = (post: PostReq) => {
     return db
         .insertInto('post')
-        .values({ uuid: uuidv4(), content: post.content, title: post.title})
+        .values({ uuid: uuidv4(), content: post.content, title: post.title, created_dt: new Date().toUTCString()})
         .returning('uuid')
         .executeTakeFirst()
 }
