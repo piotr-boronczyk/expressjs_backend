@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { ApiError } from '../utils/ApiError'
 
-// eslint-disable-next-line no-unused-vars
-export const errorHandler = (err: ApiError, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (err: ApiError, _req: Request, res: Response) => {
     const {message, statusCode} = err
     res.status(statusCode).json({
         success: false,
